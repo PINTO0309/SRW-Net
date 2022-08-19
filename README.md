@@ -38,29 +38,38 @@ Add `parsing` folder to python path for correct imports.
 source init_env.sh
 ```
 
-## Download Annotations and Model Weights
-Here you find the annotated data together with the pre-trained models to
-reproduce the result from the paper. We also include the pretrained [HAWP](https://github.com/cherubicXN/hawp) model which we used as initialization for the training.
-- [Original HAWP model](https://vision.maths.lth.se/davidg-data/srw-net/models/model_hawp.pth)
-- [SRW-Net Predictor CNN](https://vision.maths.lth.se/davidg-data/srw-net/models/model_proposal_s3d.pth)
-- [SRW-Net Refinement GCN](https://vision.maths.lth.se/davidg-data/srw-net/models/model_gnn_s3d.pth)
-- [Annotations](https://vision.maths.lth.se/davidg-data/srw-net/data.zip)
-
-Unzip `data.zip` to the `data` folder.
-You may also put the model weights in the `data` folder, the rest of this README will assume you did.
-
-## Generate Annotations
-If you prefer to generate the annotations, then
-- Download Structured3D, see [official website](https://structured3d-dataset.org/).
-You may use [this script](data/download_structured3D.py).
-- Run `python3 preprocessing/structured3D2wireframe.py --help` for instructions.
-
-
 ## Build
 To run the network, some C-code needs compiling.
 ```
 ./build.sh
 ```
+
+## Download Structured3D
+To train the network you need access to the fully furnished perspective images from Structured3D.
+See the [Structured3D website](https://structured3d-dataset.org) for instructions.
+Then download `Structured3D_perspective_full` and place in `data/Structured3D`.
+You may use the python script [download_structured3D.py](../blob/master/data/download_structured3D.py) together with the Chrome extension [CurlWget](https://chrome.google.com/webstore/detail/curlwget).
+
+
+## Download Annotations and Model Weights
+Here you find the annotations together with the pre-trained models to
+reproduce the result from the paper. We also include the pretrained [HAWP](https://github.com/cherubicXN/hawp) model which we used as initialization for the training.
+- [Original HAWP model](https://vision.maths.lth.se/davidg-data/srw-net/models/model_hawp.pth)
+- [SRW-Net Predictor CNN](https://vision.maths.lth.se/davidg-data/srw-net/models/model_proposal_s3d.pth)
+- [SRW-Net Refinement GCN](https://vision.maths.lth.se/davidg-data/srw-net/models/model_gnn_s3d.pth)
+- [Annotations](https://vision.maths.lth.se/davidg-data/srw-net/data.zip)
+- [Annotations, including refinement training data](https://vision.maths.lth.se/davidg-data/srw-net/data_gnn.zip)
+
+Unzip `data.zip` to the `data` folder.
+You may also put the model weights in the `data` folder, the rest of this README will assume you did.
+
+## Generate Annotations
+If you prefer to generate the annotations, then run 
+```
+python3 preprocessing/structured3D2wireframe.py --help
+```
+for instructions.
+
 
 ## Inference
 There are a number of ways to run inference, see `python3 scripts/test.py --help` for details.
@@ -120,6 +129,7 @@ python3 generate_gnn_dataset.py \
 CHECKPOINT ../runs/predictor/<datetime>/model_39.pth \
 IMS_PER_BATCH 1
 ```
+The data we used is available [for download](https://vision.maths.lth.se/davidg-data/srw-net/data_gnn.zip).
 
 ### Train the Refinement Module
 Finally, we train the Refinement GCN.
