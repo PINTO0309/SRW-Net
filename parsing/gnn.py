@@ -369,8 +369,7 @@ class WireframeGNNClassifier(nn.Module):
         junction_logits = self.fc_junction(junction_features)
         extra_info['time_classification'] = time.time() - extra_info['time_classification']
 
-        # print('ratio_neq', torch.sum(line_logits.argmax(1) != annotations['gnn_target_line_labels'])/len(annotations['gnn_target_line_labels']))
-        # print('labels', annotations['gnn_target_line_labels'].unique())
+
         if self.FvsT_sample_ratio is None:
             loss_dict = {
                 'loss_line_label': self.loss(line_logits, annotations['gnn_target_line_labels']),
@@ -380,12 +379,14 @@ class WireframeGNNClassifier(nn.Module):
             sample_idx = {}
             for k in ['gnn_target_line_labels', 'gnn_target_junction_labels']:
                 true_mask = (annotations[k] > 0)
-                true_idx = torch.nonzero(true_mask,as_tuple=False).squeeze()
-                nbr_true = len(true_idx)
+                true_idx = torch.nonzero(true_mask,as_tuple=False).squeeze(dim=1)
+                nbr_true = true_idx.numel()
                 nbr_false_to_sample = int(nbr_true*self.FvsT_sample_ratio)
                 false_idx = torch.nonzero(~true_mask,as_tuple=False).squeeze()
-                nbr_false = len(false_idx)
-                if nbr_false_to_sample < nbr_false:
+                nbr_false = false_idx.numel()
+                if nbr_true == 0:
+                    sample_idx[k] = []
+                elif nbr_false_to_sample < nbr_false:
                     false_idx_to_sample = false_idx[torch.randperm(nbr_false)[:nbr_false_to_sample]]
                     sample_idx[k] = torch.cat((true_idx, false_idx_to_sample))
                 else:

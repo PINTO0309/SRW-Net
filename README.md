@@ -64,7 +64,7 @@ Unzip `data.zip` to the `data` folder.
 You may also put the model weights in the `data` folder, the rest of this README will assume you did.
 
 ## Generate Annotations
-If you prefer to generate the annotations, then run 
+If you prefer to generate the annotations, then run
 ```
 python3 preprocessing/structured3D2wireframe.py --help
 ```
@@ -79,7 +79,7 @@ To run on the test set, do
 ```
 cd scripts
 python3 test.py \
---config-file ../config/layout-SRW-S3D.yaml \
+--config-file ../config-files/layout-SRW-S3D.yaml \
 CHECKPOINT ../data/model_proposal_s3d.pth \
 GNN_CHECKPOINT ../data/model_gnn_s3d.pth \
 OUTPUT_DIR ../runs/test
@@ -91,7 +91,7 @@ To run on a set of images
 ```
 cd scripts
 python3 test.py \
---config-file ../config/layout-SRW-S3D.yaml \
+--config-file ../config-files/layout-SRW-S3D.yaml \
 --img-folder <my-image-folder> \
 CHECKPOINT ../data/model_proposal_s3d.pth \
 GNN_CHECKPOINT ../data/model_gnn_s3d.pth \
@@ -106,7 +106,7 @@ The Predictor and the Refinement module are trained separately in the following 
 ```
 cd scripts
 python3 train.py \
---config-file ../config/Pred-SRW-S3D.yaml \
+--config-file ../config-files/Pred-SRW-S3D.yaml \
 CHECKPOINT ../data/model_hawp.pth \
 OUTPUT_DIR ../runs/predictor \
 TRANSFER_LEARN True
@@ -124,7 +124,7 @@ Now we use the trained model to generate a dataset for the Refinement module.
 ```
 cd preprocessing
 python3 generate_gnn_dataset.py \
---config-file ../config/Pred-SRW-S3D.yaml \
+--config-file ../config-files/Pred-SRW-S3D.yaml \
 --output-dir ../data/Structured3D_wf_open_doors_1mm/gnn_npz \
 CHECKPOINT ../runs/predictor/<datetime>/model_39.pth \
 IMS_PER_BATCH 1
@@ -136,7 +136,7 @@ Finally, we train the Refinement GCN.
 ```
 cd scripts
 python3 train.py \
---config-file ../config/GNN-SRW-S3D.yaml \
+--config-file ../config-files/GNN-SRW-S3D.yaml \
 OUTPUT_DIR ../runs/refinement
 ```
 and you will find the model weights at `../runs/refinement/<datetime>/model_09.pth`.
