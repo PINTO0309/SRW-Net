@@ -11,11 +11,11 @@ See the preprint of our [paper at arXiv](https://arxiv.org/abs/2206.00491) for m
 
 ## Clone repo and get submodules
 ```
-git clone --recurse-submodules git@github.com:DavidGillsjo/semantic-room-wireframe.git
+git clone --recurse-submodules git@github.com:DavidGillsjo/SRW-Net.git
 ```
 alternatively
 ```
-git clone git@github.com:DavidGillsjo/semantic-room-wireframe.git
+git clone git@github.com:DavidGillsjo/SRW-Net.git
 git submodule init
 git submodule update
 ```
