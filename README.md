@@ -144,13 +144,12 @@ and you will find the model weights at `../runs/refinement/<datetime>/model_09.p
 ## Citation
 If you use it in your research, please cite
 ```
-@misc{srw-net,
-  doi = {10.48550/ARXIV.2206.00491},
-  url = {https://arxiv.org/abs/2206.00491},  
-  author = {Gillsjö, David and Flood, Gabrielle and Åström, Kalle},
-  title = {Semantic Room Wireframe Detection from a Single View},
-  publisher = {arXiv},
-  year = {2022},
+@INPROCEEDINGS{srw-net,
+  author={Gillsjö, David and Flood, Gabrielle and Åström, Kalle},
+  booktitle={2022 26th International Conference on Pattern Recognition (ICPR)}, 
+  title={Semantic Room Wireframe Detection from a Single View}, 
+  year={2022},
+  pages={1886-1893},
+  doi={10.1109/ICPR56361.2022.9956252}
 }
-
 ```
